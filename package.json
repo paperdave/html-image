@@ -3,11 +3,12 @@
   "version": "0.1.1",
   "private": true,
   "dependencies": {
-    "monaco-editor": "^0.18.1",
+    "dom-to-image": "^2.6.0",
+    "monaco-editor": "^0.20.0",
     "react": "^16.11.0",
     "react-app-rewired": "^2.1.4",
     "react-dom": "^16.11.0",
-    "react-monaco-editor": "^0.32.1",
+    "react-monaco-editor": "^0.40.0",
     "react-scripts": "^3.2.0",
     "typescript": "^3.6.4"
   },
@@ -27,6 +28,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "monaco-editor-webpack-plugin": "^1.7.0"
-  }
+    "monaco-editor-webpack-plugin": "^1.9.1"
+  },
+  "homepage": "./"
 }
