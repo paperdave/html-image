@@ -61,6 +61,12 @@ function App() {
     setFontColor(x.currentTarget.value);
   }, []);
   const onExport = useCallback((x) => {
+    const filenameTemplate = document.getElementById('filenameBase').value;
+    const iStr = document.getElementById('filenameIndex').value;
+    const i = parseInt(iStr);
+    document.getElementById('filenameIndex').value = (i + 1)
+    const fname = filenameTemplate.replace(/#+/, (x) => i.toString().padStart(x.length, '0'));
+
     const type = x.currentTarget.value;
 
     const render = document.getElementById('render').contentDocument.querySelector('body > div');
@@ -75,7 +81,7 @@ function App() {
     render.style.fontFamily = fontFamily;
     render.innerHTML = code;
 
-    DomToImage[type === 'JPEG' ? 'toJpeg' : type === 'png' ? 'toPng' : 'toSVG'](render, {
+    DomToImage[type === 'JPEG' ? 'toJpeg' : type === 'PNG' ? 'toPng' : 'toSvg'](render, {
       bgcolor: type === 'JPEG'
         ? 'white'
         : undefined,
@@ -84,13 +90,13 @@ function App() {
     })
       .then(function(dataUrl) {
         const link = document.createElement('a');
-        link.download = 'my-image-name.png';
+        link.download = fname + '.' + (type === 'JPEG' ? 'jpeg' : type === 'PNG' ? 'png' : 'svg');
         link.href = dataUrl;
         link.click();
       });
   }, [code, exportScale, fontColor, fontSize, fontFamily]);
 
-  const pageCode = `<style>body>div {zoom:${zoom};font-size:${fontSize}px;font-family:${fontFamily};color:${fontColor};}</style><div>${code}</div>`;
+  const pageCode = `<style>body>div{zoom:${zoom};font-size:${fontSize}px;font-family:${fontFamily};color:${fontColor};}</style><div>${code}</div>`;
 
   return <div style={{ display: 'flex', flexDirection: 'column', top: 0, left: 0, bottom: 0, right: 0, position: 'absolute', overflow: 'hidden' }}>
     <div id='top'>
@@ -116,7 +122,8 @@ function App() {
             <option value="8">8x</option>
           </select>
 &nbsp;&nbsp;&nbsp;&nbsp; <strong>File Name</strong> <span>{}</span>
-          <input type="text" defaultValue='text{i}' id="filenameBase"/>
+          <input type="text" defaultValue='text####' id="filenameBase"/>
+          <input type="text" defaultValue='1' id="filenameIndex"/>
         </div>
         <div className="row">
           <strong style={{ color: 'red '}}>Preview: </strong>
